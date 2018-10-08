@@ -163,7 +163,8 @@ namespace CLRCLI.Utils
                     return this;
                 if (_buffer[_pos.Line].LongLength <= _pos.Col)
                     _buffer[_pos.Line].Resize(_pos.Col + ResizeColumnDelta - _buffer[_pos.Line].LongLength);
-                _buffer[_pos.Line][_pos.Col-1] = ' ';
+                if (_pos.Col > 0)
+                    _buffer[_pos.Line][_pos.Col - 1] = ' ';
                 _buffer[_pos.Line].Merge(_buffer[_pos.Line + 1]);
                 
                 for (long l = _pos.Line + 1; l < _buffer.LongLength - 1; ++l)
