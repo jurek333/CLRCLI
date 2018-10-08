@@ -14,8 +14,8 @@ namespace CLRCLI.Utils
     
     internal class TextBuffer
     {
-        private const long InitialNumberOfLines = 80;
-        private const long InitialNumberOfColumns = 120;
+        private const long InitialNumberOfLines = 1;
+        private const long InitialNumberOfColumns = 40;
         private const long ResizeColumnDelta = 10;
 
         private BufferLine[] _buffer;
@@ -39,7 +39,7 @@ namespace CLRCLI.Utils
         {
             BufferLine[] tmp = new BufferLine[_buffer.LongLength + howManyLines];
             BufferLine newLine;
-            if (_pos.Col < _buffer[_pos.Line].TextLength)
+            if (_buffer.LongLength > _pos.Line && _pos.Col < _buffer[_pos.Line].TextLength)
             {
                 newLine = new BufferLine(_buffer[_pos.Line].TextLength - _pos.Col + newLineSize);
                 newLine.CopyFrom(_buffer[_pos.Line], 0, _pos.Col);
@@ -50,7 +50,10 @@ namespace CLRCLI.Utils
             for (l = 0; l <= _pos.Line && l < _buffer.LongLength; ++l)
                 tmp[l] = _buffer[l];
             for (dl = 0; dl < howManyLines; ++dl)
+            {
                 tmp[l + dl] = newLine;
+                newLine = new BufferLine(newLineSize);
+            }
             for (; l < _buffer.LongLength; ++l)
                 tmp[l + dl] = _buffer[l];
 
@@ -209,7 +212,7 @@ namespace CLRCLI.Utils
             StringBuilder sb = new StringBuilder();
             for (long l = y; l < y + height; ++l)
             {
-                if(l > _buffer.LongLength)
+                if(l >= _buffer.LongLength)
                 {
                     lines.Add(new string(' ', (int)width));
                     continue;
