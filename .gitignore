@@ -5,6 +5,7 @@
 /TestHarness/bin/Debug
 /TestHarness/obj/Debug
 /CLRCLI/obj/Debug
+/.vs
 *.dll
 *.pdb
 *.suo

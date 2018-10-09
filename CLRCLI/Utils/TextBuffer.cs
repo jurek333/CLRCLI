@@ -214,7 +214,17 @@ namespace CLRCLI.Utils
             {
                 if(l >= _buffer.LongLength)
                 {
-                    lines.Add(new string(' ', (int)width));
+                    if (markCoursor && l == _pos.Line && x <= _pos.Col && _pos.Col < (x+(int)width))
+                    {
+                        sb.Append(new string(' ', (int)_pos.Col));
+                        sb.Append("\x1B[4m");
+                        sb.Append(" ");
+                        sb.Append("\x1B[0m\x1B[45m\x1B[97m");
+                        sb.Append(new string(' ', (int)(width-_pos.Col-1)));
+                        lines.Add(sb.ToString());
+                    }
+                    else
+                        lines.Add(new string(' ', (int)width));
                     continue;
                 }
                 for (long c = x; c < x + width; ++c)
@@ -222,7 +232,7 @@ namespace CLRCLI.Utils
                     Char character = c < _buffer[l].LongLength ? _buffer[l][c] : ' ';
                     if (character == Char.MinValue)
                         character = ' ';
-                    if (l == _pos.Line && c == _pos.Col)
+                    if (markCoursor && l == _pos.Line && c == _pos.Col)
                     {
                         sb.Append("\x1B[4m");
                         sb.Append(character);

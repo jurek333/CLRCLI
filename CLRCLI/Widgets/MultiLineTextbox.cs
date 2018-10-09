@@ -34,7 +34,7 @@ namespace CLRCLI.Widgets
             ToggleCursorTimer.Elapsed += ToggleCursorTimer_Elapsed;
             ToggleCursorTimer.Start();
         }
-
+        
         void ToggleCursorTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
             CursorVisible = !CursorVisible;
